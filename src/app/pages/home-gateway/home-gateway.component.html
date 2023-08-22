@@ -1,0 +1,44 @@
+<section>
+    <div class="bg-img">
+        <img src="assets/image/otsuka-logo.png" class="p-4" style="width: 150px;" alt="">
+        <div class="container">
+            <div class="card transparent-card p-5 shadow-lg rounded-7">
+                <div class="row wrapper">
+                    <h2 class="text-center text-primary">OC3 Apps Gateway</h2>
+                    <div class="col p-3 d-flex justify-content-center" *ngFor="let app of applications">
+                        <a routerLink="{{ app.url }}">
+                            <div class="app-card">
+                                <img src="{{ app.icon }}" />
+                                <div class="info">
+                                    <b>{{ app.name }}</b>
+                                    <p>{{ app.desc }}</p>
+                                    <!-- <button>Read More</button> -->
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- <div class="card rounded-7 p-5 shadow-lg transparent-card">
+                <h4 class="text-center mb-3 text-primary">OC3 Apps Gateway</h4>
+                <div class="row">
+                    <div class="col p-3 d-flex justify-content-center" *ngFor="let app of applications">
+                        <div class="bg-image hover-overlay ripple shadow-1-strong rounded-7"
+                            data-mdb-ripple-color="light" style="width: 100px;">
+                            <img src="{{ app.icon }}" class="rounded-7 w-100" />
+                            <a [routerLink]="app.url" mdbTooltip="<b>{{ app.name }}</b>, {{ app.desc }}" [html]="true"
+                                placement="bottom">
+                                <div class="mask" style="background-color: rgba(251, 251, 251, 0.2);"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class='air air1'></div>
+    <div class='air air2'></div>
+    <div class='air air3'></div>
+    <div class='air air4'></div>
+</section>
