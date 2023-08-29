@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">{{ title }}</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="onClose()"></button>
+</div>
+<div class="modal-body" *ngIf="!isOnRemoveDialog && !isOnLogoutDialog">
+    <form>
+        <div class="mb-3">
+            <label for="title" class="form-label">App Title</label>
+            <input type="text" class="form-control" id="title" placeholder="Enter application title"
+                [(ngModel)]="appData.name" [ngModelOptions]="{standalone: true}" required>
+            <p *ngIf="isNameEmpty" class="text-danger">App title is required!</p>
+        </div>
+        <div class="mb-3">
+            <label for="url" class="form-label">App URL</label>
+            <input type="url" class="form-control" id="url" placeholder="Enter application url"
+                [(ngModel)]="appData.url" [ngModelOptions]="{standalone: true}" required>
+            <p *ngIf="isUrlEmpty || urlError" class="text-danger">{{ isUrlEmpty ? 'App Url is required!' : urlError }}</p>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" rows="3" placeholder="Enter app description"
+                [(ngModel)]="appData.description" [ngModelOptions]="{standalone: true}" required></textarea>
+            <p *ngIf="isDescEmpty" class="text-danger">App description is required!</p>
+        </div>
+        <div class="mb-3">
+            <p class="form-label">App Icon</p>
+            <div style="width: 100px;" *ngIf="!isOnIconChange && appData.app_id !== undefined">
+                <img src="{{ imageUrl }}{{ appData.icon }}" class="img-fluid w-100" alt="">
+            </div>
+            <div class="card p-3" *ngIf="isOnIconChange || (appData.app_id == undefined && !isIconEmpty)">
+                <p class="text-muted text-danger" style="font-size: small;">*Image with a 1:1 ratio is recommended</p>
+                <dropzone [config]="dropzoneConfig" (success)="onUploadIconSuccess($event)" class="dropzone_sec"></dropzone>
+                <button *ngIf="dropzoneResponse !== undefined && appData.app_id === undefined" class="btn btn-sm btn-outline-danger" (click)="deleteIcon()">Remove</button>
+            </div>
+            <button *ngIf="appData.app_id !== undefined"
+                class="btn {{ isOnIconChange ? 'btn-outline-danger' : 'btn-outline-primary' }} btn-sm mt-2"
+                (click)="onChangeIconClick()">{{ isOnIconChange ? 'Cancel' : 'Change Icon' }}</button>
+        </div>
+        <div class="form-check d-flex justify-content-start mb-3" *ngIf="appData.app_id === undefined">
+            <input mdbCheckbox class="form-check-input me-2" type="checkbox" value="" id="iconbox"
+                [checked]="isIconEmpty" (checkboxChange)="onEmptyIconChecked()" />
+            <label class="form-check-label" for="iconbox">I don't have an app icon yet</label>
+        </div>
+    </form>
+</div>
+<div class="modal-body" *ngIf="isOnRemoveDialog">
+    Are you sure you want to remove this application?
+</div>
+<div class="modal-body" *ngIf="isOnLogoutDialog">
+    Are you sure you want to log out?
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" *ngIf="appData.app_id !== undefined || isOnLogoutDialog" (click)="onNegativeButtonClick()">
+        {{ isOnLogoutDialog ? 'Log Out' : 'Remove App'}}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onClose()">
+        Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onSave()" *ngIf="!isOnRemoveDialog && !isOnLogoutDialog">Save changes</button>
+</div>

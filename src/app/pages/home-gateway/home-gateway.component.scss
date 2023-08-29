@@ -2,12 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  min-height: 75vh;
+  padding: 40px;
 }
 
 .transparent-card {
   background-color: rgba(255, 255, 255, 0.7);
   border: none;
+  padding: 40px;
 }
 
 .bg-card {
@@ -19,7 +21,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
 }
 
@@ -30,8 +32,8 @@
 }
 
 .app-card {
-  width: 200px;
-  height: 200px;
+  width: 175px;
+  height: 175px;
   border-radius: 15px;
   padding: 1.5rem;
   background: white;
@@ -87,9 +89,15 @@
 }
 .app-card .info p {
   letter-spacing: 1px;
-  font-size: 15px;
+  font-size: 12px;
   margin-top: 8px;
 }
+
+.app-card .info b {
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
 .app-card .info button {
   padding: 0.6rem;
   outline: none;
@@ -106,84 +114,53 @@
   color: white;
 }
 
-@media (max-width: 767px) {
-  .bg-img {
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+@media (max-width: 768px) {
+  // .bg-img {
+  //   height: 100%;
+  //   background-position: center;
+  //   background-repeat: no-repeat;
+  //   background-size: cover;
+  // }
+
+  .transparent-card {
+    padding: 30px;
   }
 
   .container {
-    padding: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px
   }
 
-  section .air {
-    visibility: hidden;
+  .app-card {
+    width: 110px;
+    height: 110px;
   }
-}
 
-section {
-  position: relative;
-  overflow: hidden;
-  // width: 100%;
-  // height: 100vh;
-  // background: #3586ff;
+  .app-title {
+    font-size: 9px;
+    max-width: 100%
+  }
+
+  .info b{
+    visibility:hidden;
+  }
+
+  .info p {
+    visibility:hidden;
+  }
   
 }
-section .air {
+
+.app-title {
+  text-align: center;
+  max-width: 175px;
+  word-wrap: break-word;
+}
+
+.floating-btn {
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100px;
-  background: url("../../../assets/image/wave.png");
-  background-size: 1000px 100px;
-}
-section .air.air1 {
-  animation: wave 30s linear infinite;
-  z-index: 1000;
-  opacity: 1;
-  animation-delay: 0s;
-  bottom: 0;
-}
-section .air.air2 {
-  animation: wave2 15s linear infinite;
-  z-index: 999;
-  opacity: 0.5;
-  animation-delay: -5s;
-  bottom: 10px;
-}
-section .air.air3 {
-  animation: wave 30s linear infinite;
-  z-index: 998;
-  opacity: 0.2;
-  animation-delay: -2s;
-  bottom: 15px;
-}
-section .air.air4 {
-  animation: wave2 5s linear infinite;
-  z-index: 997;
-  opacity: 0.7;
-  animation-delay: -5s;
-  bottom: 20px;
-}
-@keyframes wave {
-  0% {
-    background-position-x: 0px;
-  }
-  100% {
-    background-position-x: 1000px;
-  }
-}
-@keyframes wave2 {
-  0% {
-    background-position-x: 0px;
-  }
-  100% {
-    background-position-x: -1000px;
-  }
+  right: 0;
 }

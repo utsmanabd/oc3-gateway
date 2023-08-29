@@ -1,0 +1,33 @@
+<div class="text-center mt-2">
+    <!-- <h5 class="text-primary">OC3 Apps Gateway</h5> -->
+    <p class="text-primary">OC3 Apps Gateway</p>
+</div>
+<div class="p-2 mt-4">
+    <div class="alert alert-danger" role="alert" *ngIf="isLoginFailed">
+        NIK and password do not match!
+      </div>
+    <form>
+        <div class="mb-3">
+          <label class="form-label" for="nik">NIK</label>
+          <input type="text" class="form-control" id="nik" placeholder="Enter NIK" [(ngModel)]="loginData.nik" [ngModelOptions]="{standalone: true}">
+          <div *ngIf="isNIKEmpty" class="text-danger">NIK is required!</div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="password-input">Password</label>
+            <div class="position-relative auth-pass-inputgroup">
+                <input [type]="'password'" class="form-control pe-5" placeholder="Enter password" id="password-input" [(ngModel)]="loginData.password" [ngModelOptions]="{standalone: true}">
+            </div>
+            <div *ngIf="isPasswordEmpty" class="text-danger">Password is required!</div>
+        </div>
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
+            <label class="form-check-label" for="auth-remember-check">Remember me</label>
+        </div>
+
+        <div class="mt-4">
+            <button class="btn btn-primary w-100" type="submit" (click)="login()">Sign In</button>
+        </div>
+    </form>
+</div>
