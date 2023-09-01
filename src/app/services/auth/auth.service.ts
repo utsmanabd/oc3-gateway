@@ -8,7 +8,6 @@ import { environment } from 'src/environments/environment.development';
 })
 export class AuthService {
   private jwtHelper: JwtHelperService = new JwtHelperService();
-  private token: string | null = null;
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -27,6 +26,10 @@ export class AuthService {
     );
   }
 
+  refreshToken(refreshToken: string) {
+    return this.httpClient.post(environment.AUTH_URL + environment.refreshToken, { refreshToken: refreshToken }, this.httpOptions)
+  }
+
   isAdmin(): boolean {
     if (this.getUserData().role_id == 1) {
       return true
@@ -35,12 +38,14 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('token');
   }
 
-  setAuthData(token: any, userData: any) {
-    localStorage.setItem('token', token)
-    localStorage.setItem('userData', JSON.stringify(userData))
+  setAuthData(token: any, refreshToken: any, userData: any) {
+    this.setToken(token)
+    localStorage.setItem('refreshToken', refreshToken)
+    this.setUserData(userData)
   }
 
   getUserData() {
@@ -48,6 +53,10 @@ export class AuthService {
     if (userData !== null) {
       return JSON.parse(userData)
     }
+  }
+
+  setUserData(userData: any) {
+    localStorage.setItem('userData', JSON.stringify(userData))
   }
 
   setToken(token: string) {
@@ -58,9 +67,13 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refreshToken')
+  }
+
   isAuthenticated(): boolean {
-    // Memeriksa apakah token tersedia dan belum kadaluarsa
     const token = this.getToken();
     return token !== null && !this.jwtHelper.isTokenExpired(token);
   }
+
 }

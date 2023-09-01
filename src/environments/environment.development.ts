@@ -10,5 +10,7 @@ export const environment = {
     userAppId: 'master/user-app/',
 
     image: 'master/image/',
-    getImage: 'image/'
+    getImage: 'image/',
+
+    refreshToken: 'update-token'
 };

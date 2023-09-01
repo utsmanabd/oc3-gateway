@@ -4,7 +4,6 @@ import { ApiService } from 'src/app/services/api.service';
 import { environment } from 'src/environments/environment.development';
 import { AppsModalComponent } from './apps-modal/apps-modal.component';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-gateway',
@@ -22,7 +21,7 @@ export class HomeGatewayComponent {
 
   isEditModeActive: boolean = false;
 
-  isConnected: boolean = false
+  isConnected: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -32,13 +31,13 @@ export class HomeGatewayComponent {
 
   onLoading(): boolean {
     if (this.isConnected) {
-      return true
-    } else return false
+      return true;
+    } else return false;
   }
 
   ngOnInit(): void {
-    this.userData = this.authService.getUserData()
-    this.isAdmin = this.authService.isAdmin()
+    this.userData = this.authService.getUserData();
+    this.isAdmin = this.authService.isAdmin();
     this.getAllApps();
   }
 
@@ -50,9 +49,9 @@ export class HomeGatewayComponent {
 
   openLogoutModal() {
     const modalData = {
-      title: `Log Out`
+      title: `Log Out`,
     };
-    this.setModal(modalData)
+    this.setModal(modalData);
   }
 
   openAddModal() {
@@ -84,6 +83,7 @@ export class HomeGatewayComponent {
     this.modalRef = this.modalService.open(AppsModalComponent, {
       data: modalData,
       modalClass: 'modal-dialog-scrollable',
+      ignoreBackdropClick: true
     });
     this.modalRef.onClose.subscribe((success: boolean) => {
       if (success) {
@@ -94,72 +94,67 @@ export class HomeGatewayComponent {
 
   onFavoriteAppClick(app: any) {
     if (app.custom_id !== null) {
-      console.log("Custom id touched: " + app.custom_id);
-      this.deleteFavoriteApp(app.custom_id)
+      this.deleteFavoriteApp(app.custom_id);
     } else {
-      const customAppData = { 
+      const selectedApp = {
         user_id: this.userData.id,
         app_id: app.app_id,
-        custom_order: 1
-       }
-       this.insertFavoriteApp(customAppData)
+        custom_order: 1,
+      };
+      this.insertFavoriteApp(selectedApp);
     }
   }
 
   getAllApps() {
     if (this.userData.id !== undefined) {
-      this.isConnected = true
-      this.apiService.getCustomApps(this.userData.id).subscribe(
-        (res: any) => {
+      this.isConnected = true;
+      this.apiService.getCustomApps(this.userData.id).subscribe({
+        next: (res: any) => {
           if (res.status) {
             this.apps = res.data;
-            this.isConnected = true
-            console.log(res)
           } else {
             console.error(`${res.data.message}`);
-            // setTimeout(() => {
-            //   this.isConnected = false
-            // }, 1000)
-            
+            setTimeout(() => {
+              this.isConnected = false;
+            }, 1000);
           }
         },
-        (error) => {
-          console.error(`Failed to get apps. Error: ${error}`)
-          // setTimeout(() => {
-          //   this.isConnected = false
-          // }, 1000)
-        }
-      );
+        error: (err: any) => {
+          console.error(err);
+          setTimeout(() => {
+            this.isConnected = false;
+          }, 1000);
+        },
+      });
     }
   }
 
   insertFavoriteApp(data: any) {
     if (this.userData.id !== undefined) {
-      this.apiService.insertCustomApp(data).subscribe(
-        (res: any) => {
+      this.apiService.insertCustomApp(data).subscribe({
+        next: (res: any) => {
           if (res.status) {
-            this.getAllApps()
-          }
+            this.getAllApps();
+          }          
         },
-        (error) => {
-          console.error("Failed to insert application. Error: " + error)
-        }
-      )
+        error: (err: any) => console.error(err)
+      });
     }
   }
 
   deleteFavoriteApp(customId: number) {
     if (customId !== null) {
-      this.apiService.deleteCustomApp(customId).subscribe(
-        (res: any) => {
+      this.apiService.deleteCustomApp(customId).subscribe({
+        next: (res: any) => {
           if (res.data == 1) {
-            this.getAllApps()
-          } else console.error("Failed to delete application. Error: custom_id not found!")
+            this.getAllApps();
+          } else
+            console.error(
+              'Failed to remove application from favorite. Error: custom_id not found!'
+            );
         },
-        (error) => {
-          console.error("Failed to delete application. Error: ", error)
-        }
-      )
+        error: (err: any) => console.error(err)
+      });     
     }
   }
 }

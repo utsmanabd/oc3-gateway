@@ -28,9 +28,9 @@
                 <img src="{{ imageUrl }}{{ appData.icon }}" class="img-fluid w-100" alt="">
             </div>
             <div class="card p-3" *ngIf="isOnIconChange || (appData.app_id == undefined && !isIconEmpty)">
-                <p class="text-muted text-danger" style="font-size: small;">*Image with a 1:1 ratio is recommended</p>
                 <dropzone [config]="dropzoneConfig" (success)="onUploadIconSuccess($event)" class="dropzone_sec"></dropzone>
-                <button *ngIf="dropzoneResponse !== undefined && appData.app_id === undefined" class="btn btn-sm btn-outline-danger" (click)="deleteIcon()">Remove</button>
+                <i class="text-muted" style="font-size: x-small;">*Maximum image size is 5MB with an aspect ratio of 1:1 (recommended).</i>
+                <button *ngIf="dropzoneResponse !== undefined && appData.app_id === undefined" class="btn btn-sm btn-outline-danger" (click)="deleteIcon(appData.icon)">Remove</button>
             </div>
             <button *ngIf="appData.app_id !== undefined"
                 class="btn {{ isOnIconChange ? 'btn-outline-danger' : 'btn-outline-primary' }} btn-sm mt-2"

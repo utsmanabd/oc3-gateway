@@ -27,33 +27,6 @@ const routes: Routes = [
     path: 'stockparts',
     component: StockSparepartsComponent
   }
-  // {
-  //   path: '',
-  //   component: TemplateComponent,
-  //   children: [
-  //     {
-  //       path: '',
-  //       redirectTo: 'am',
-  //       pathMatch: 'full'
-  //     },
-  //     {
-  //       path: 'am',
-  //       component: AutonomousMaintenanceComponent,
-  //     },
-  //     {
-  //       path: 'pm',
-  //       component: PredictiveMaintenanceComponent,
-  //     },
-  //     {
-  //       path: 'cilt',
-  //       component: ActivityCiltComponent,
-  //     },
-  //     {
-  //       path: 'stockparts',
-  //       component: StockSparepartsComponent
-  //     }
-  //   ]
-  // }
 ];
 
 @NgModule({

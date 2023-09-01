@@ -164,3 +164,12 @@
   bottom: 0;
   right: 0;
 }
+
+.btn-edit-mode {
+  display: flex;
+  flex-direction: column; /* Mengatur tampilan menjadi vertikal */
+}
+
+.btn-edit-mode button {
+  margin-bottom: 10px; /* Memberikan jarak antara tombol */
+}

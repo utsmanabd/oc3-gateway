@@ -16,8 +16,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class AppsModalComponent {
   dropzoneConfig: DropzoneConfigInterface = {
     url: `${environment.API_URL}${environment.image}`,
-    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-    maxFilesize: 50,
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    maxFilesize: 5,
     acceptedFiles: 'image/*',
     maxFiles: 1,
   };
@@ -40,7 +40,7 @@ export class AppsModalComponent {
   isNameEmpty: boolean = false;
   isDescEmpty: boolean = false;
   isUrlEmpty: boolean = false;
-  urlError: string = ''
+  urlError: string = '';
   isIconEmpty: boolean = false;
 
   isOnIconChange: boolean = false;
@@ -56,7 +56,7 @@ export class AppsModalComponent {
 
   ngOnInit() {
     if (this.title === 'Log Out') {
-      this.isOnLogoutDialog = true
+      this.isOnLogoutDialog = true;
     }
   }
 
@@ -64,7 +64,7 @@ export class AppsModalComponent {
     if (!this.isIconEmpty) {
       this.isIconEmpty = true;
       if (this.dropzoneResponse !== undefined) {
-        this.deleteIcon();
+        this.deleteIcon(this.appData.icon);
       }
     } else this.isIconEmpty = false;
   }
@@ -75,7 +75,7 @@ export class AppsModalComponent {
       this.isOnIconChange = true;
     } else {
       if (this.dropzoneResponse !== undefined) {
-        this.deleteIcon();
+        this.deleteIcon(this.appData.icon);
       }
       this.appData.icon = this.previousIcon;
       this.isOnIconChange = false;
@@ -84,8 +84,8 @@ export class AppsModalComponent {
 
   onNegativeButtonClick() {
     if (this.isOnLogoutDialog) {
-      this.logOut()
-    } else this.onRemoveAppClick()
+      this.logOut();
+    } else this.onRemoveAppClick();
   }
 
   onRemoveAppClick() {
@@ -100,14 +100,19 @@ export class AppsModalComponent {
 
   onClose(): void {
     if (this.dropzoneResponse !== undefined) {
-      this.deleteIcon()
+      this.deleteIcon(this.appData.icon);
     }
-    this.modalRef.close()
+    this.modalRef.close();
   }
 
   onSave(): void {
     this.validateForm();
-    if (!this.isNameEmpty && !this.isDescEmpty && !this.isUrlEmpty && !this.urlError) {
+    if (
+      !this.isNameEmpty &&
+      !this.isDescEmpty &&
+      !this.isUrlEmpty &&
+      !this.urlError
+    ) {
       if (this.appData.app_id !== undefined) {
         this.updateApplication(this.appData.app_id, this.appData);
       } else {
@@ -125,73 +130,70 @@ export class AppsModalComponent {
     if (this.dropzoneResponse !== undefined) {
       this.fileName = this.dropzoneResponse.filename;
       this.appData.icon = this.fileName;
-      console.log(this.dropzoneResponse);
     }
   }
 
   insertApplication(data: any) {
-    this.apiService.insertApp(data).subscribe(
-      (res: any) => {
+    this.apiService.insertApp(data).subscribe({
+      next: (res: any) => {
         if (res.status) {
           let success = true;
           this.modalRef.close(success);
         }
       },
-      (error) => {
-        console.error(`Failed to insert application. Error: ${error}`);
-      }
-    );
+      error: (err: any) => console.error(err),
+    });
   }
 
   updateApplication(id: number, data: any) {
-    this.apiService.updateApp(id, data).subscribe(
-      (res: any) => {
+    this.apiService.updateApp(id, data).subscribe({
+      next: (res: any) => {
         if (res.status) {
+          if (
+            this.dropzoneResponse !== undefined &&
+            this.previousIcon !== this.DEFAULT_ICON
+          ) {
+            this.deleteIcon(this.previousIcon);
+          }
           let success = true;
           this.modalRef.close(success);
         }
       },
-      (error) => {
-        console.error(`Failed to update application. Error: ${error}`);
-      }
-    );
+      error: (err: any) => console.error(err),
+    });
   }
 
   deleteApplication(id: number) {
-    this.apiService.deleteApp(id).subscribe(
-      (res: any) => {
+    this.apiService.deleteApp(id).subscribe({
+      next: (res: any) => {
         if (res.data === 1) {
           let success = true;
-          this.deleteIcon();
+          this.deleteIcon(this.appData.icon);
           this.modalRef.close(success);
         }
       },
-      (error) => {
-        console.error(`Failed to delete application. Error: ${error}`);
-      }
-    );
+      error: (err: any) => console.error(err),
+    });
   }
 
-  deleteIcon() {
-    if (
-      this.appData.icon !== this.DEFAULT_ICON ||
-      this.dropzoneResponse !== undefined
-    ) {
-      this.apiService
-        .deleteImage(this.appData.icon as string)
-        .subscribe((res: any) => {
+  deleteIcon(icon: string | undefined) {
+    if (icon !== this.DEFAULT_ICON || this.dropzoneResponse !== undefined) {
+      this.apiService.deleteImage(icon as string).subscribe({
+        next: (res: any) => {
           if (!res.error) {
             console.log(res.message);
           }
-        });
+        },
+        error: (err: any) => console.error(err),
+      });
       this.isIconEmpty = true;
       this.dropzoneResponse = undefined;
     }
   }
 
   logOut() {
-    this.modalRef.close()
-    this.authService.logout()
+    this.modalRef.close();
+    this.authService.logout();
     this.router.navigate(['/auth/login']);
   }
 
@@ -213,17 +215,17 @@ export class AppsModalComponent {
     const urlPattern = /^[a-z0-9\-]+(\.[a-z0-9\-]+)+$/i;
 
     if (httpPattern.test(url) || urlPattern.test(url)) {
-        return true
-    } else return false
+      return true;
+    } else return false;
   }
 
   validUrl(url: string): string {
     const httpPattern = /^https?:\/\/.+/;
     if (httpPattern.test(url)) {
-        return url
+      return url;
     } else {
-      let validUrl = `http://${url}`
-      return validUrl
+      let validUrl = `http://${url}`;
+      return validUrl;
     }
   }
 }

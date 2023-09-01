@@ -10,15 +10,13 @@ export class ApiService {
   public httpOptions(): any {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Content-Type': 'application/json'
       }),
     };
   }
 
   constructor(private httpClient: HttpClient) {}
 
-  // Application Endpoints
   getCustomApps(userId: number) {
     return this.httpClient.get<any>(
       environment.API_URL + environment.userAppId + userId,

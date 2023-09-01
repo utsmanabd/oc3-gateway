@@ -9,7 +9,7 @@
     <form>
         <div class="mb-3">
           <label class="form-label" for="nik">NIK</label>
-          <input type="text" class="form-control" id="nik" placeholder="Enter NIK" [(ngModel)]="loginData.nik" [ngModelOptions]="{standalone: true}">
+          <input type="number" min="0" class="form-control" id="nik" placeholder="Enter NIK" [(ngModel)]="loginData.nik" [ngModelOptions]="{standalone: true}">
           <div *ngIf="isNIKEmpty" class="text-danger">NIK is required!</div>
         </div>
 
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
+            <input class="form-check-input" type="checkbox" [checked]="isRemembered" (click)="onRememberMeChecked()" id="auth-remember-check">
             <label class="form-check-label" for="auth-remember-check">Remember me</label>
         </div>
 
