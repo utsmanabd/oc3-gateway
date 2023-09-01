@@ -9,26 +9,30 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent {
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {}
+  
+  ngOnInit(): void {
     if (!this.authService.isAuthenticated()) {
       const refreshToken = this.authService.getRefreshToken();
       if (refreshToken !== null) {
-        this.authService.refreshToken(refreshToken)
-          .subscribe({
-            next: (res: any) => {
-              if (!res.error && res.accessToken) {
-                this.authService.setToken(res.accessToken);
-              } else {
-                console.error(res.message)
-              }
-            },
-            error: (err) => console.error(err),
-            complete: () => this.router.navigate(['/apps'])
-          })
+        this.refreshToken(refreshToken)
       } else {
         return;
       }
     } else this.router.navigate(['/'])
   }
-  
+
+  refreshToken(token: any) {
+    this.authService.refreshToken(token).subscribe({
+      next: (res: any) => {
+        if (!res.error && res.accessToken) {
+          this.authService.setToken(res.accessToken);
+        } else {
+          console.error(res.message)
+        }
+      },
+      error: (err) => console.error(err),
+      complete: () => this.router.navigate(['/apps'])
+    })
+  }
 }

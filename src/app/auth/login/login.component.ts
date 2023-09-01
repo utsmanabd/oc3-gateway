@@ -23,7 +23,6 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
-    console.log('login clicked')
     this.isLoginFailed = false;
     this.validateForm();
     if (!this.isNIKEmpty && !this.isPasswordEmpty) {
@@ -43,9 +42,6 @@ export class LoginComponent {
                 );
               }
               this.router.navigate(['/apps']);
-              console.log(
-                'Refresh token:' + this.authService.getRefreshToken()
-              );
             } else {
               console.error(`Failed to login. Error: ${res.message}`);
               this.isLoginFailed = true;
@@ -62,10 +58,8 @@ export class LoginComponent {
   onRememberMeChecked() {
     if (!this.isRemembered) {
       this.isRemembered = true;
-      console.log('Remembered');
     } else {
       this.isRemembered = false;
-      console.log('NotRemembered');
     }
   }
 

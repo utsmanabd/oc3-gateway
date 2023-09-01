@@ -8,6 +8,7 @@ import { HomeGatewayComponent } from './pages/home-gateway/home-gateway.componen
 import { TemplateComponent } from './template/template.component';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtInterceptor } from './services/auth/jwt.interceptor';
+import { ErrorInterceptor } from './services/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { JwtInterceptor } from './services/auth/jwt.interceptor';
     
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
