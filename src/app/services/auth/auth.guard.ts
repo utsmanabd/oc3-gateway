@@ -15,29 +15,8 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isAuthenticated()) {
       return true;
     } else {
-      const refreshToken = this.authService.getRefreshToken()
-      let isAuth = false
-      if (refreshToken !== null) {
-        this.authService.refreshToken(refreshToken).subscribe({
-          next: (res: any) => {
-            if (!res.error && res.accessToken) {
-              this.authService.setToken(res.accessToken);
-              isAuth = true
-            } else {
-              isAuth = false
-            }
-          },
-          error: (err) => { 
-            isAuth = false
-          }
-        })
-      } else {
-        isAuth = false
-      }
-      if (!isAuth) {
-        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-      }
-      return isAuth
+      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
+      return false;
     }
   }
 }

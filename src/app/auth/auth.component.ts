@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent {
 
+  isOnRefresh: boolean = false;
+
   constructor(private authService: AuthService, private router: Router) {}
   
   ngOnInit(): void {
@@ -19,20 +21,28 @@ export class AuthComponent {
       } else {
         return;
       }
-    } else this.router.navigate(['/'])
+    } else {
+      this.isOnRefresh = true
+      this.router.navigate(['/'])
+    }
   }
 
   refreshToken(token: any) {
+    this.isOnRefresh = true
     this.authService.refreshToken(token).subscribe({
       next: (res: any) => {
         if (!res.error && res.accessToken) {
           this.authService.setToken(res.accessToken);
         } else {
           console.error(res.message)
+          this.isOnRefresh = false
         }
       },
       error: (err) => console.error(err),
-      complete: () => this.router.navigate(['/apps'])
+      complete: () => {
+        this.router.navigate(['/apps'])
+        this.isOnRefresh = false
+      }
     })
   }
 }
