@@ -3,6 +3,7 @@ export const environment = {
     AUTH_URL: 'http://localhost:3179/api/auth/',
 
     login: 'login',
+    loginApi: 'apilogin',
 
     applications: 'master/application',
     applicationId: 'master/application/',
@@ -10,5 +11,7 @@ export const environment = {
     userAppId: 'master/user-app/',
 
     image: 'master/image/',
-    getImage: 'image/'
+    getImage: 'image/',
+
+    refreshToken: 'update-token'
 };

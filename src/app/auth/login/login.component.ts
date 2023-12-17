@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { UserData } from './user.model';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Router } from '@angular/router';
 
@@ -9,10 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  loginData: UserData = {
-    nik: null,
-    password: '',
-  };
+
+  nik: string = '';
+  password: string = '';
 
   isNIKEmpty: boolean = false;
   isPasswordEmpty: boolean = false;
@@ -27,7 +25,7 @@ export class LoginComponent {
     this.validateForm();
     if (!this.isNIKEmpty && !this.isPasswordEmpty) {
       this.authService
-        .login(this.loginData.nik, this.loginData.password)
+        .apiLogin(this.nik, this.password)
         .subscribe({
           next: (res: any) => {
             if (!res.error) {
@@ -64,7 +62,7 @@ export class LoginComponent {
   }
 
   validateForm() {
-    this.isNIKEmpty = this.loginData.nik === null;
-    this.isPasswordEmpty = this.loginData.password.trim() === '';
+    this.isNIKEmpty = this.nik.trim() === '';
+    this.isPasswordEmpty = this.password.trim() === '';
   }
 }

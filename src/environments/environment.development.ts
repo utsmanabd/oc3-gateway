@@ -3,6 +3,7 @@ export const environment = {
     AUTH_URL: 'http://localhost:3179/api/auth/',
 
     login: 'login',
+    loginApi: 'apilogin',
 
     applications: 'master/application',
     applicationId: 'master/application/',

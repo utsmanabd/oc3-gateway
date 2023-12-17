@@ -26,6 +26,10 @@ export class AuthService {
     );
   }
 
+  apiLogin(nik: string, password: string) {
+    return this.httpClient.post(environment.AUTH_URL + environment.loginApi, { username: nik, password: password }, this.httpOptions)  
+  }
+
   refreshToken(refreshToken: string) {
     return this.httpClient.post(environment.AUTH_URL + environment.refreshToken, { refreshToken: refreshToken }, this.httpOptions)
   }

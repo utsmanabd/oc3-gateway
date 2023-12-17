@@ -1,7 +1,8 @@
+<div class="bg-overlay"></div>
 <div class="bg-img">
     <div class="d-flex justify-content-between">
-        <img src="assets/image/otsuka-logo.png" class="p-4" height="100" alt="">
-        <div class="mt-2 me-3">
+        <img src="assets/image/otsuka-logo.png" class="p-4 position-sticky" height="100" alt="">
+        <div class="mt-2 me-3 position-sticky">
             Hi, {{ userData.name }}.
             <a routerLink="" (click)="openLogoutModal()">Logout</a>
         </div>
@@ -21,30 +22,34 @@
                     </div>
                 </div>
             </div>
-            <div class="row wrapper" *ngIf="apps !== undefined">
-                <h2 class="text-center text-primary mb-3">OC3 Apps Gateway</h2>
-                <div class="col col-lg-3 p-3 d-flex justify-content-center" *ngFor="let app of apps">
-                    <div class="d-flex flex-column align-items-center me-2">
-                        <button class="btn btn-sm btn-outline-secondary btn-floating mb-2" *ngIf="isEditModeActive"
-                            type="button" (click)="onFavoriteAppClick(app)">
-                            <i class="{{ app.custom_id ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}}"></i>
-                        </button>
-                        <button *ngIf="isEditModeActive && isAdmin" (click)="openEditModal(app)" type="button"
-                            class="btn btn-sm btn-secondary btn-floating">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <a href="{{ app.url }}">
-                        <div class="app-card">
-                            <img src="{{ imageUrl }}{{ app.icon }}" />
-                            <div class="info">
-                                <b>{{ app.name }}</b>
-                                <p>{{ app.description }}</p>
-                                <!-- <button>Read More</button> -->
-                            </div>
+            <div class="card-header">
+                <h5 class="text-secondary mb-0">OC3 Apps Gateway</h5>
+            </div>
+            <div class="card-body">
+                <div class="row wrapper" *ngIf="apps !== undefined">
+                    <div class="col col-lg-3 p-3 d-flex justify-content-center" *ngFor="let app of apps">
+                        <div class="d-flex flex-column align-items-center me-2">
+                            <button class="btn btn-sm btn-outline-secondary btn-floating mb-2" *ngIf="isEditModeActive"
+                                type="button" (click)="onFavoriteAppClick(app)">
+                                <i class="{{ app.custom_id ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}}"></i>
+                            </button>
+                            <button *ngIf="isEditModeActive && isAdmin" (click)="openEditModal(app)" type="button"
+                                class="btn btn-sm btn-secondary btn-floating">
+                                <i class="fas fa-edit"></i>
+                            </button>
                         </div>
-                        <p class="mt-3 app-title">{{app.name}}</p>
-                    </a>
+                        <a href="{{ app.url }}">
+                            <div class="app-card">
+                                <img src="{{ imageUrl }}{{ app.icon }}" />
+                                <div class="info">
+                                    <!-- <b>{{ app.name }}</b> -->
+                                    <p>{{ app.description }}</p>
+                                    <!-- <button>Read More</button> -->
+                                </div>
+                            </div>
+                            <p class="mt-3 app-title">{{app.name}}</p>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

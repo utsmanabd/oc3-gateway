@@ -9,14 +9,14 @@
     <form>
         <div class="mb-3">
           <label class="form-label" for="nik">NIK</label>
-          <input type="number" min="0" class="form-control" id="nik" placeholder="Enter NIK" [(ngModel)]="loginData.nik" [ngModelOptions]="{standalone: true}">
+          <input type="text" class="form-control" id="nik" placeholder="Enter NIK" [(ngModel)]="nik" [ngModelOptions]="{standalone: true}">
           <div *ngIf="isNIKEmpty" class="text-danger">NIK is required!</div>
         </div>
 
         <div class="mb-3">
             <label class="form-label" for="password-input">Password</label>
             <div class="position-relative auth-pass-inputgroup">
-                <input [type]="'password'" class="form-control pe-5" placeholder="Enter password" id="password-input" [(ngModel)]="loginData.password" [ngModelOptions]="{standalone: true}">
+                <input type="password" class="form-control pe-5" placeholder="Enter password" id="password-input" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
             </div>
             <div *ngIf="isPasswordEmpty" class="text-danger">Password is required!</div>
         </div>

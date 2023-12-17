@@ -99,7 +99,7 @@ export class HomeGatewayComponent {
       const selectedApp = {
         user_id: this.userData.id,
         app_id: app.app_id,
-        custom_order: 1,
+        custom_order: 0, // Choose the right configuration between 1 and 0
       };
       this.insertFavoriteApp(selectedApp);
     }
