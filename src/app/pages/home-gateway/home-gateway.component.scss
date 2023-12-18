@@ -7,7 +7,7 @@
 }
 
 .transparent-card {
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.9);
   border: none;
   padding: 40px;
 }
@@ -22,24 +22,24 @@
 }
 
 .bg-img {
-  background-image: url("../../../assets/image/app-bg.jpg");
+  // background-image: url("../../../assets/image/app-bg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  background: linear-gradient(to right, rgba(42, 131, 195, 0), rgba(42, 131, 195, 0.7));
   min-height: 100vh;
   margin: 0;
 }
 
-.bg-overlay {
-  position: absolute;
-  border-radius: 15px;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(42, 131, 195, 0), rgba(42, 131, 195, 0.5));
-  pointer-events: none;
-}
+// .bg-overlay {
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background: linear-gradient(to bottom, rgba(42, 131, 195, 0), rgba(42, 131, 195, 0.5));
+//   pointer-events: none;
+// }
 
 .wrapper {
   display: flex;
@@ -60,7 +60,7 @@
   box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.5);
 }
 .app-card:hover {
-  transform: translateY(20px);
+  transform: translateY(-10px);
 }
 .app-card:hover:before {
   opacity: 1;
@@ -150,13 +150,12 @@
   }
 
   .app-card {
-    width: 110px;
-    height: 110px;
+    width: 90px;
+    height: 90px;
   }
 
   .app-title {
-    font-size: 9px;
-    max-width: 100%
+    max-width: 90px
   }
 
   .info b{
@@ -170,8 +169,9 @@
 }
 
 .app-title {
-  text-align: center;
-  max-width: 175px;
+  text-align:center;
+  max-width: 125px;
+  font-size: 14px;
   word-wrap: break-word;
 }
 
